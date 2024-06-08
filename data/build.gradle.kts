@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.windwatersnow.android.library)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.apollo.graphql)
+    //alias(libs.plugins.apollo.graphql)
     alias(libs.plugins.mapsplatform.secrets)
 }
 
@@ -16,11 +16,11 @@ android {
         shaders = false
     }
 
-    apollo {
+    /*apollo {
         service("service") {
             packageName.set("com.ylabz.windwatersnow.data")
         }
-    }
+    }*/
 
     secrets {
         defaultPropertiesFileName = "secrets.defaults.properties"
@@ -30,15 +30,9 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.apollo.graphql)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    // GraphQL
-    implementation(libs.okhttp)
-    implementation(libs.apollo.graphql)
-    implementation(libs.apollo.graphql.cache)
 
     // Room
     implementation(libs.androidx.room.runtime)

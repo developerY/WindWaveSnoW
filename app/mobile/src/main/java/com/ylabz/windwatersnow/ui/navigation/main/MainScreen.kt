@@ -85,13 +85,13 @@ data class BottomNavigationItem(
 
 val items = listOf(
     BottomNavigationItem(
-        title = "Water",
+        title = "Wind",
         selectedIcon = Icons.TwoTone.Home,
         unselectedIcon = Icons.Outlined.Home,
         hasNews = false,
     ),
     BottomNavigationItem(
-        title = "Wind",
+        title = "Water",
         selectedIcon = Icons.TwoTone.List,
         unselectedIcon = Icons.Outlined.List,
         hasNews = false,

@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ylabz.windwatersnow.core.ui.MAIN
 import com.ylabz.windwatersnow.core.ui.Screen
+import com.ylabz.windwatersnow.wind.ui.WindRoute
 
 /**
  * This code defines the main navigation graph for an Android application using Jetpack Compose
@@ -55,7 +56,10 @@ fun MainNavGraph(
         composable(
             Screen.Wind.route,
         ) {
-            Text("Wind View")
+            WindRoute(
+                paddingValues = padding,
+                navTo = {path -> navController.navigate(path)}
+            )
         }
 
         composable(

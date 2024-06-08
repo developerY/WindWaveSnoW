@@ -191,11 +191,11 @@ The argument will be available to the screen as a parameter to the composable() 
 Compose Navigation provides a simple and declarative way to navigate between screens in your Android app. 
 By following the steps above, you can easily add new screens to your app and navigate to them.
 
-The approach with Event.kt, Screen.kt, State.kt, and ViewModel.kt is more explicit and declarative. 
+The approach with Event.kt, Screen.kt, State.kt, and WindViewModel.kt is more explicit and declarative. 
 It clearly separates the UI from the logic of the app, making the code more modular, reusable, and testable. 
 **However**, it can be more verbose and complex to implement, especially for large apps.
 
-The approach with Route.kt, UiState.kt, and ViewModel.kt is more concise and easier to implement. 
+The approach with Route.kt, UiState.kt, and WindViewModel.kt is more concise and easier to implement. 
 It also makes it easier to handle navigation between screens. However, it is less explicit and declarative, 
 and it can be more difficult to separate the UI from the logic of the app.
 

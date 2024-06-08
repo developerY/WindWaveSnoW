@@ -20,7 +20,7 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
-    // implementation(project(":feature:details"))
+    implementation(project(":feature:wind"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
