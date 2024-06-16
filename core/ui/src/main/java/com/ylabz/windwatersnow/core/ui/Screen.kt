@@ -33,9 +33,9 @@ const val ROOT = "root"
 sealed class Screen(val route: String) {
 
     // MAIN
-    data object Wind: Screen(route = "wind_screen")
-    data object Water: Screen(route = "water_screen") // is a key that is not used anywhere
-    data object Snow : Screen(route = "snow_screen")
+    data object WindScreen: Screen(route = "wind_screen")
+    data object WaterScreen: Screen(route = "water_screen") // is a key that is not used anywhere
+    data object SnowScreen : Screen(route = "snow_screen")
 
     // data object CameraPhoto: Screen(route = "camera_photo_screen")
 

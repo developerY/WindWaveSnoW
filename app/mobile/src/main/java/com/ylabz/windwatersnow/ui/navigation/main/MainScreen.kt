@@ -5,8 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
@@ -31,13 +29,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.ylabz.windwatersnow.R
 import com.ylabz.windwatersnow.core.ui.Screen
 import kotlin.math.roundToInt
 
@@ -69,9 +65,9 @@ import kotlin.math.roundToInt
 
 private fun navigateTo(tabTitle: String, navController: NavHostController) {
     when (tabTitle) {
-        "Wind"-> navController.navigate(Screen.Wind.route)
-        "Water" -> navController.navigate(Screen.Water.route)
-        "Snow" -> navController.navigate(Screen.Snow.route)
+        "WindScreen"-> navController.navigate(Screen.WindScreen.route)
+        "WaterScreen" -> navController.navigate(Screen.WaterScreen.route)
+        "SnowScreen" -> navController.navigate(Screen.SnowScreen.route)
     }
 }
 
@@ -85,20 +81,20 @@ data class BottomNavigationItem(
 
 val items = listOf(
     BottomNavigationItem(
-        title = "Wind",
+        title = "WindScreen",
         selectedIcon = Icons.TwoTone.Home,
         unselectedIcon = Icons.Outlined.Home,
         hasNews = false,
     ),
     BottomNavigationItem(
-        title = "Water",
+        title = "WaterScreen",
         selectedIcon = Icons.TwoTone.List,
         unselectedIcon = Icons.Outlined.List,
         hasNews = false,
         badgeCount = 7
     ),
     BottomNavigationItem(
-        title = "Snow", // Category -> Cat
+        title = "SnowScreen", // Category -> Cat
         selectedIcon = Icons.TwoTone.Star,
         unselectedIcon = Icons.Outlined.Settings,
         hasNews = true,
@@ -108,7 +104,6 @@ val items = listOf(
 /**
  * Main Screen
  */
-@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun MainScreen(navController: NavHostController = rememberNavController()) { // Change to Animated
 
@@ -184,7 +179,6 @@ fun AppBottomBar(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.S)
 @Preview
 @Composable
 private fun MainScreenPreview() {

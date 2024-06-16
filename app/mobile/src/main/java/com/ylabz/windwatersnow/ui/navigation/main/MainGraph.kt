@@ -2,16 +2,18 @@ package com.ylabz.windwatersnow.ui.navigation.main
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ylabz.windwatersnow.core.ui.MAIN
 import com.ylabz.windwatersnow.core.ui.Screen
-import com.ylabz.windwatersnow.wind.ui.WindRoute
+import com.ylabz.windwatersnow.wind.ui.components.data.sampleWeatherData
+import com.ylabz.windwatersnow.wind.ui.components.wind.SailorWindContent
+import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardContent
+import com.ylabz.windwatersnow.wind.ui.components.surf.SurferWindContent
 
 /**
  * This code defines the main navigation graph for an Android application using Jetpack Compose
@@ -50,88 +52,35 @@ fun MainNavGraph(
     NavHost(
         navController = navController,
         route = MAIN,
-        startDestination = Screen.Water.route
+        startDestination = Screen.WindScreen.route
     ) {
+        composable(
+            Screen.WindScreen.route,
+        ) {
+            SailorWindContent(
+                paddingValues = PaddingValues(0.dp),
+                weather = sampleWeatherData
+            )
+
+        }
 
         composable(
-            Screen.Wind.route,
+            Screen.WaterScreen.route
         ) {
-            WindRoute(
-                paddingValues = padding,
-                navTo = {path -> navController.navigate(path)}
+            SurferWindContent(
+                paddingValues = PaddingValues(0.dp),
+                weather = sampleWeatherData
+            )
+
+        }
+
+        composable(
+            Screen.SnowScreen.route
+        ) {
+            SnowboardContent(
+                paddingValues = PaddingValues(0.dp),
+                weather = sampleWeatherData
             )
         }
-
-        composable(
-            Screen.Water.route
-        ) {
-            Text("Water View")
-        }
-
-        composable(
-            Screen.Snow.route
-        ) {
-            Text("Snow View")
-        }
-
-        //windwatersnowNavGraph(navController, padding)
-
-        /*composable(
-            "details/{id}",
-            listOf(navArgument("id") { type = NavType.LongType }),
-        ) {
-            DetailsRoute(
-                onGoBack = {
-                    navController.popBackStack()
-                },
-            )
-        }
-
-        composable(
-            Screen.Cat.route
-        ) {
-            CatRoute (
-                padding,
-                navController,
-                onGoToItem = { id ->
-                    navController.navigate("details/$id")
-                },
-            )
-        }
-
-        composable(
-            Screen.PhotoT.route
-        ) {
-            PhotoRoute(
-                padding,
-                navController,
-                onGoToItem = { id ->
-                    navController.navigate("details/$id")
-                },
-            )
-        }
-
-        composable(
-            "details/{id}",
-            listOf(navArgument("id") { type = NavType.LongType }),
-        ) {
-            DetailsRoute(
-                onGoBack = {
-                    navController.popBackStack()
-                },
-            )
-        }
-
-        composable(
-            Screen.Cat.route
-        ) {
-            CatRoute (
-                padding,
-                navController,
-                onGoToItem = { id ->
-                    navController.navigate("details/$id")
-                },
-            )
-        }*/
     }
 }

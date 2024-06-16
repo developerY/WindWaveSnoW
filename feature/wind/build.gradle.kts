@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.kotlinx.datetime)
+    implementation(libs.squareup.retrofit.converter.gson)
 
 
     // Preview
