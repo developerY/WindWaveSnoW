@@ -34,6 +34,10 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
 
+    // Paging
+    implementation(libs.google.accompanist.pager)
+    implementation(libs.google.accompanist.pager.indicators)
+
     implementation(libs.kotlinx.datetime)
 
     // Compose Navigation

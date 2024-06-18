@@ -1,5 +1,7 @@
 package com.ylabz.windwatersnow.network.repo
 
+import com.ylabz.windwatersnow.network.model.WeatherResponse
+
 interface WeatherRepo {
-    suspend fun getWeather(location: String): String
+    suspend fun getCurrentWeather(location: String): WeatherResponse?
 }

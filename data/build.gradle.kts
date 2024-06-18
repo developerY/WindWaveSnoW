@@ -43,6 +43,10 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.extensions)
 
+    // Retrofit
+    implementation(libs.squareup.retrofit)
+    implementation(libs.squareup.retrofit.converter.gson)
+    implementation(libs.squareup.okhttp3.logging.interceptor)
 
     // TF Lite
     //implementation(libs.tensorflow.lite.support)

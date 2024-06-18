@@ -16,18 +16,74 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.gson.Gson
-import com.ylabz.windwatersnow.wind.ui.components.data.SurfResponse
-import com.ylabz.windwatersnow.wind.ui.components.data.Wind
+import com.ylabz.windwatersnow.core.ui.Loading
+import com.ylabz.windwatersnow.network.model.Clouds
+import com.ylabz.windwatersnow.network.model.Coord
+import com.ylabz.windwatersnow.network.model.Main
+import com.ylabz.windwatersnow.network.model.Sys
+import com.ylabz.windwatersnow.network.model.Weather
+import com.ylabz.windwatersnow.network.model.WeatherResponse
+import com.ylabz.windwatersnow.network.model.Wind
+import com.ylabz.windwatersnow.wind.ui.WeatherEvent
+import com.ylabz.windwatersnow.wind.ui.WeatherUiState
+import com.ylabz.windwatersnow.wind.ui.WindViewModel
+import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardContent
+import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardScreen
 
+@Composable
+fun SurferWindRoute(
+    paddingValues: PaddingValues,
+    navTo: (String) -> Unit,
+    //navController: NavController,
+    //onGoToItem: (Long) -> Unit,
+    //modifier: Modifier = Modifier,
+    viewModel: WindViewModel = hiltViewModel()
+) {
+    val onEvent: (WeatherEvent) -> Unit = viewModel::onEvent
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SurferWindScreen(
+        paddingValues = paddingValues,
+        onEvent = onEvent,
+        weatherUiState = state,
+        navTo = navTo,
+    )
+}
+
+@Composable
+internal fun SurferWindScreen(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    onEvent: (WeatherEvent) -> Unit,
+    weatherUiState: WeatherUiState,
+    navTo: (String) -> Unit,
+) {
+    when (weatherUiState) {
+        WeatherUiState.Loading -> Loading(modifier)
+
+        is WeatherUiState.Success -> SurferWindContent(
+            modifier,
+            paddingValues = paddingValues,
+            onEvent = onEvent,
+            weather = weatherUiState.weather,
+            navTo = navTo
+        )
+
+        WeatherUiState.Error -> TODO()
+    }
+}
 
 @Composable
 fun SurferWindContent(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
-    weather: String,
+    onEvent: (WeatherEvent) -> Unit,
+    weather: WeatherResponse?,
+    navTo: (String) -> Unit,
 ) {
-    val surfResponse = remember { Gson().fromJson(weather, SurfResponse::class.java) }
 
     Surface(
         modifier = Modifier
@@ -42,7 +98,7 @@ fun SurferWindContent(
                     .weight(1f)
                     .border(2.dp, Color.Black) // Add border to the bottom box
             ) {
-                SurfersWindScreen(surfResponse)
+                SurfersWindCards(weather)
                 WaveAnimationScreenSet()
             }
         }
@@ -52,7 +108,7 @@ fun SurferWindContent(
 
 
 @Composable
-internal fun SurfersWindScreen(surfResponse: SurfResponse) {
+internal fun SurfersWindCards(weather: WeatherResponse?) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -67,11 +123,11 @@ internal fun SurfersWindScreen(surfResponse: SurfResponse) {
         ) {
             SurfLocationCard(location = "Beach Break")
             Spacer(modifier = Modifier.height(16.dp))
-            SurfWindSpeedCard(speed = surfResponse.wind.speed)
+            SurfWindSpeedCard(speed = weather?.wind?.speed ?: 0.0)
             Spacer(modifier = Modifier.height(16.dp))
-            SurfWindDirectionCard(deg = surfResponse.wind.deg)
+            SurfWindDirectionCard(deg = weather?.wind?.deg ?: 0)
             Spacer(modifier = Modifier.height(16.dp))
-            WaveHeightCard(height = surfResponse.waves.height)
+            WaveHeightCard(height = 5.2)
         }
     }
 }
@@ -141,7 +197,7 @@ fun SurfWindDirectionCard(deg: Int) {
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 4000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
-        )
+        ), label = ""
     )
 
     Card(
@@ -200,7 +256,7 @@ fun WaveHeightCard(height: Double) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "${height} m",
+                text = "$height m",
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
@@ -222,15 +278,30 @@ fun WaveHeightCard(height: Double) {
 @Composable
 private fun SurferWindContentPreview() {
 
-    val sampleWeatherData = """{
+
+    /*val weatherResponse = WeatherResponse(
+        coord = Coord(12.34, 56.78),
+        weather =  [],
+        val base: String,
+        val main: Main,
+        val visibility: Int,
+        val wind: Wind,
+        val clouds: Clouds,
+        val dt: Long,
+        val sys: Sys,
+        val timezone: Int,
+        val id: Int,
+        val name: String,
+        val cod: Int
+    )*/
+
+    /*val weatherResponse = """{
                 "wind": { "speed": 5.5, "deg": 240 },
                 "snow": { "volume": 30 },
                 "waves": { "height": 5 },
                 "main": { "temp": -5 },
                 "name": "Open Sea"
-            }""".trimMargin()
+            }""".trimMargin()*/
 
-
-    val surfResponse = remember { Gson().fromJson(sampleWeatherData, SurfResponse::class.java) }
-    SurferWindContent(weather = sampleWeatherData, paddingValues = PaddingValues())
+    // SurferWindContent(weather = weatherResponse, paddingValues = PaddingValues())
 }

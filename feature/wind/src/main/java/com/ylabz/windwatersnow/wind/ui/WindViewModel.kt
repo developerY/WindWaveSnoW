@@ -1,11 +1,9 @@
 package com.ylabz.windwatersnow.wind.ui
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
+import com.ylabz.windwatersnow.network.model.WeatherResponse
 import com.ylabz.windwatersnow.network.repo.WeatherRepo
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,21 +21,20 @@ class WindViewModel @Inject constructor(
 
     // Backing property to avoid state updates from other classes
     private val _uiState = MutableStateFlow(
-        WindUiState.Success(
-            weather = "",
-            // data = emptyList() ,audioFiles = emptyList(), photoFiles = emptyList()
+        WeatherUiState.Success(
+            weather = null,
         )
     )
 
     // The UI collects from this StateFlow to get its state updates
-    val uiState: StateFlow<WindUiState> = _uiState
+    val uiState: StateFlow<WeatherUiState> = _uiState
 
     private fun intiViewModel() {
         viewModelScope.launch {
-            val weather = weatherRepo.getWeather("london")
-            Log.d("Weather", weather)
+            val weather = weatherRepo.getCurrentWeather("london")
+            Log.d("Weather", "WindViewModel    ---- Weather: ${weather.toString()} ")
             //weather :String = weatherRepo.getWeather("london")
-            _uiState.value = WindUiState.Success(weather = weather)
+            _uiState.value = WeatherUiState.Success(weather = weather)
         }
     }
 
@@ -45,12 +42,13 @@ class WindViewModel @Inject constructor(
         intiViewModel()
     }
 
-    fun onEvent(event: WindEvent) {
+    fun onEvent(event: WeatherEvent) {
         when (event) {
-            is WindEvent.GetWeather-> {
+            is WeatherEvent.GetWeather-> {
                 viewModelScope.launch {
-                        val weather:String = weatherRepo.getWeather("London")
-                        Log.d("Weather", weather)
+                        val weather: WeatherResponse? = weatherRepo.getCurrentWeather("London")
+                        _uiState.value = WeatherUiState.Success(weather = weather)
+                        Log.d("Weather", "WindViewModel    ---- Weather: ${weather.toString()} ")
                 }
             }
         }

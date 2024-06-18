@@ -184,6 +184,8 @@ android-tools-build-gradle-plugin = { group = "com.android.tools.build", name = 
 
 squareup-retrofit = {module = 'com.squareup.retrofit2:retrofit', version ='2.9.0'}
 squareup-retrofit-converter-gson = {module = 'com.squareup.retrofit2:converter-gson', version ='2.9.0'}
+squareup-okhttp3-logging-interceptor = {module ='com.squareup.okhttp3:logging-interceptor', version = '4.9.1'}
+
 
 # Play
 google-play-feature-delivery = { module = "com.google.android.play:feature-delivery", version = "2.1.0" }
@@ -194,6 +196,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 waj-compose-flip =  {group = "com.wajahatkarim", name = "flippable",version.ref = "flipCompose"}
 tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version.ref = "tensorflowLiteSupportVersion" }
 tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadataVersion" }
+
+# Pager
+google-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version = "0.25.1"}
+google-accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version = "0.25.1" }
 
 
 [plugins]

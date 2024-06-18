@@ -1,10 +1,7 @@
 package com.ylabz.windwatersnow.wind.ui.components.snow
 
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
-
+import android.util.Log
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,29 +11,74 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.gson.Gson
-import com.ylabz.windwatersnow.wind.ui.components.data.Main
-import com.ylabz.windwatersnow.wind.ui.components.data.Snow
-import com.ylabz.windwatersnow.wind.ui.components.data.SnowboardResponse
-import com.ylabz.windwatersnow.wind.ui.components.data.Wind
-import kotlin.random.Random
+import com.ylabz.windwatersnow.core.ui.Loading
+import com.ylabz.windwatersnow.network.model.WeatherResponse
+import com.ylabz.windwatersnow.wind.ui.WeatherEvent
+import com.ylabz.windwatersnow.wind.ui.WeatherUiState
+import com.ylabz.windwatersnow.wind.ui.WindViewModel
 
+
+@Composable
+fun SnowboardRoute(
+    paddingValues: PaddingValues,
+    navTo: (String) -> Unit,
+    //navController: NavController,
+    //onGoToItem: (Long) -> Unit,
+    //modifier: Modifier = Modifier,
+    viewModel: WindViewModel = hiltViewModel()
+) {
+    val onEvent: (WeatherEvent) -> Unit = viewModel::onEvent
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SnowboardScreen(
+        paddingValues = paddingValues,
+        onEvent = onEvent,
+        weatherUiState = state,
+        navTo = navTo,
+    )
+}
+
+@Composable
+fun SnowboardScreen(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    onEvent: (WeatherEvent) -> Unit,
+    weatherUiState: WeatherUiState,
+    navTo: (String) -> Unit,
+) {
+    when (weatherUiState) {
+        WeatherUiState.Loading -> Loading(modifier)
+
+        is WeatherUiState.Success -> SnowboardContent(
+            modifier,
+            paddingValues = paddingValues,
+            onEvent = onEvent,
+            weatherResponse = weatherUiState.weather,
+            navTo = navTo
+        )
+
+        WeatherUiState.Error -> TODO()
+    }
+}
 
 
 @Composable
 fun SnowboardContent(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
-    weather: String,
+    onEvent: (WeatherEvent) -> Unit,
+    weatherResponse: WeatherResponse?,
+    navTo: (String) -> Unit,
 ) {
-    val snowboardResponse = remember { Gson().fromJson(weather, SnowboardResponse::class.java) }
-
+    // fix the string!
+    // use quicktype to get all the code  https://quicktype.io/
     Surface(
         modifier = Modifier
             .padding(paddingValues)
@@ -44,14 +86,14 @@ fun SnowboardContent(
         color = MaterialTheme.colorScheme.background
     ) {
         Box {
-            SnowboardScreen(snowboardResponse = snowboardResponse)
+            SnowboardCards(snowboardResponse = weatherResponse)
             SnowfallAnimation()
         }
     }
 }
 
 @Composable
-internal fun SnowboardScreen(snowboardResponse: SnowboardResponse) {
+internal fun SnowboardCards(snowboardResponse: WeatherResponse?) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -66,13 +108,13 @@ internal fun SnowboardScreen(snowboardResponse: SnowboardResponse) {
         ) {
             SnowLocationCard(location = "Snowy Mountain")
             Spacer(modifier = Modifier.height(16.dp))
-            SnowTemperatureCard(temp = snowboardResponse.main.temp)
+            SnowTemperatureCard(temp = snowboardResponse?.main?.temp ?: 0.1)
             Spacer(modifier = Modifier.height(16.dp))
-            SnowWindSpeedCard(speed = snowboardResponse.wind.speed)
+            SnowWindSpeedCard(speed = snowboardResponse?.wind?.speed ?: 0.0)
             Spacer(modifier = Modifier.height(16.dp))
-            SnowWindDirectionCard(deg = snowboardResponse.wind.deg)
+            SnowWindDirectionCard(deg = snowboardResponse?.wind?.deg ?: 0)
             Spacer(modifier = Modifier.height(16.dp))
-            SnowVolumeCard(volume = snowboardResponse.snow.volume)
+            SnowVolumeCard(volume = 2.5)
         }
     }
 }
@@ -254,5 +296,27 @@ fun SnowVolumeCard(volume: Double) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun SnowboardContentPreview() {
+    /*val sampleWeatherData = """{
+                "wind": { "speed": 5.5, "deg": 240 },
+                "snow": { "volume": 30 },
+                "waves": { "height": 5 },
+                "main": { "temp": -5 },
+                "name": "Open Sea"
+            }""".trimMargin()
+
+
+
+    SnowboardContent(
+        paddingValues = PaddingValues(),
+        onEvent = {WeatherEvent -> Unit}  ,
+        weather= sampleWeatherData,
+        navTo = {String -> Unit}
+    )*/
+
 }
 

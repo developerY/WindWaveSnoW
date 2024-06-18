@@ -26,6 +26,12 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.squareup.retrofit.converter.gson)
 
+    // Permissions
+    implementation(libs.androidx.accompanist.permissions)
+
+    implementation(libs.google.accompanist.pager)
+    implementation(libs.google.accompanist.pager.indicators)
+
 
     // Preview
     //androidx-ui-tooling-preview

@@ -4,16 +4,16 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ylabz.windwatersnow.core.ui.MAIN
 import com.ylabz.windwatersnow.core.ui.Screen
-import com.ylabz.windwatersnow.wind.ui.components.data.sampleWeatherData
-import com.ylabz.windwatersnow.wind.ui.components.wind.SailorWindContent
-import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardContent
-import com.ylabz.windwatersnow.wind.ui.components.surf.SurferWindContent
+import com.ylabz.windwatersnow.wind.ui.components.SwipeableViews
+import com.ylabz.windwatersnow.wind.ui.components.system.AudioRecScreen
+import com.ylabz.windwatersnow.wind.ui.components.surf.SurferWindRoute
+import com.ylabz.windwatersnow.wind.ui.components.system.Locations
+import com.ylabz.windwatersnow.wind.ui.components.system.WeatherSettings
 
 /**
  * This code defines the main navigation graph for an Android application using Jetpack Compose
@@ -57,19 +57,22 @@ fun MainNavGraph(
         composable(
             Screen.WindScreen.route,
         ) {
-            SailorWindContent(
-                paddingValues = PaddingValues(0.dp),
-                weather = sampleWeatherData
+            /*SailorWindRoute(
+                paddingValues = padding,
+                navTo = {path -> navController.navigate(path)}
+            )*/
+            SwipeableViews(
+                paddingValues = padding,
+                navTo = {path -> navController.navigate(path)}
             )
-
         }
 
         composable(
             Screen.WaterScreen.route
         ) {
-            SurferWindContent(
-                paddingValues = PaddingValues(0.dp),
-                weather = sampleWeatherData
+            Locations (
+                paddingValues = padding,
+                navTo = {path -> navController.navigate(path)}
             )
 
         }
@@ -77,9 +80,9 @@ fun MainNavGraph(
         composable(
             Screen.SnowScreen.route
         ) {
-            SnowboardContent(
-                paddingValues = PaddingValues(0.dp),
-                weather = sampleWeatherData
+            WeatherSettings(
+                paddingValues = padding,
+                navTo = {path -> navController.navigate(path)}
             )
         }
     }

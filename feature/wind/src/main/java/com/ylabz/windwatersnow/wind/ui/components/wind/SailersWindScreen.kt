@@ -13,32 +13,87 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.gson.Gson
-import com.ylabz.windwatersnow.wind.ui.components.data.WindResponse
+import com.ylabz.windwatersnow.core.ui.Loading
+import com.ylabz.windwatersnow.network.model.WeatherResponse
+import com.ylabz.windwatersnow.wind.ui.WeatherEvent
+import com.ylabz.windwatersnow.wind.ui.WeatherUiState
+import com.ylabz.windwatersnow.wind.ui.WindViewModel
+import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardContent
+import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardScreen
 
 
 @Composable
-fun SailorWindContent(
+fun SailorWindRoute(
+    paddingValues: PaddingValues,
+    navTo: (String) -> Unit,
+    //navController: NavController,
+    //onGoToItem: (Long) -> Unit,
+    //modifier: Modifier = Modifier,
+    viewModel: WindViewModel = hiltViewModel()
+) {
+    val onEvent: (WeatherEvent) -> Unit = viewModel::onEvent
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SailorWindScreen(
+        paddingValues = paddingValues,
+        onEvent = onEvent,
+        weatherUiState = state,
+        navTo = navTo,
+    )
+}
+
+@Composable
+internal fun SailorWindScreen(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
-    weather: String,
+    onEvent: (WeatherEvent) -> Unit,
+    weatherUiState: WeatherUiState,
+    navTo: (String) -> Unit,
 ) {
-    val windResponse = remember { Gson().fromJson(weather, WindResponse::class.java) }
+    when (weatherUiState) {
+        WeatherUiState.Loading -> Loading(modifier)
 
+        is WeatherUiState.Success -> SailorWindContent(
+            modifier,
+            paddingValues = paddingValues,
+            onEvent = onEvent,
+            weatherResponse = weatherUiState.weather,
+            navTo = navTo
+        )
+
+        WeatherUiState.Error -> TODO()
+    }
+}
+
+
+@Composable
+internal fun SailorWindContent(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    onEvent: (WeatherEvent) -> Unit,
+    weatherResponse: WeatherResponse?,
+    navTo: (String) -> Unit,
+) {
     Surface(
         modifier = Modifier
             .padding(paddingValues)
             .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        SailorsWindScreen(windResponse = windResponse)
-        WindAnimation()
+        Box {
+            SailorsWindCards(weatherResponse = weatherResponse)
+            WindAnimation()
+        }
     }
 }
 
 
 @Composable
-internal fun SailorsWindScreen(windResponse: WindResponse) {
+internal fun SailorsWindCards(weatherResponse: WeatherResponse?) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -53,9 +108,9 @@ internal fun SailorsWindScreen(windResponse: WindResponse) {
         ) {
             WindLocationCard(location = "Open Sea")
             Spacer(modifier = Modifier.height(16.dp))
-            WindSpeedCard(windResponse.wind.speed)
+            WindSpeedCard(weatherResponse?.wind?.speed ?: 0.0)
             Spacer(modifier = Modifier.height(16.dp))
-            WindDirectionCard(deg = windResponse.wind.deg)
+            WindDirectionCard(deg = weatherResponse?.wind?.deg ?: 0)
             WindAnimation()
         }
     }
@@ -164,6 +219,12 @@ fun WindDirectionCard(deg: Int) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun SailorWindContent() {
+    SailorWindContent()
 }
 
 
