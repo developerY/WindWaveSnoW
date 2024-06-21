@@ -120,9 +120,9 @@ fun MainScreen(navController: NavHostController = rememberNavController()) { // 
     val bottomBarOffsetHeightPx = remember { mutableStateOf(0f) }
 
     Scaffold(
-        topBar = {
+        /*topBar = {
             AppTopBar()
-        },
+        },*/
         bottomBar = {
             AppBottomBar(
                 navController = navController,

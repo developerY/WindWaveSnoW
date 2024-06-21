@@ -1,5 +1,7 @@
 package com.ylabz.windwatersnow.wind.ui.components.wind
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.gson.Gson
@@ -24,6 +28,7 @@ import com.ylabz.windwatersnow.wind.ui.WeatherUiState
 import com.ylabz.windwatersnow.wind.ui.WindViewModel
 import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardContent
 import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardScreen
+import com.ylabz.windwatersnow.wind.ui.components.system.SpeechCaptureUI
 
 
 @Composable
@@ -65,7 +70,18 @@ internal fun SailorWindScreen(
             navTo = navTo
         )
 
-        WeatherUiState.Error -> TODO()
+        is WeatherUiState.Error -> {
+            AlertDialog(
+                onDismissRequest = { /*TODO*/ },
+                title = { Text("Error") },
+                text = { Text(weatherUiState.message) },
+                confirmButton = {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -80,7 +96,7 @@ internal fun SailorWindContent(
 ) {
     Surface(
         modifier = Modifier
-            .padding(paddingValues)
+            //.padding(paddingValues)
             .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
@@ -96,8 +112,8 @@ internal fun SailorWindContent(
 internal fun SailorsWindCards(weatherResponse: WeatherResponse?) {
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
+            //.padding(16.dp),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(

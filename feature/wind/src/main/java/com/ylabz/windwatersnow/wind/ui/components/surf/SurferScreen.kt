@@ -72,7 +72,18 @@ internal fun SurferWindScreen(
             navTo = navTo
         )
 
-        WeatherUiState.Error -> TODO()
+        is WeatherUiState.Error -> {
+            AlertDialog(
+                onDismissRequest = { /*TODO*/ },
+                title = { Text("Error") },
+                text = { Text(weatherUiState.message) },
+                confirmButton = {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -87,17 +98,13 @@ fun SurferWindContent(
 
     Surface(
         modifier = Modifier
-            .padding(paddingValues)
+            //.padding(paddingValues)
             .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
 
         Column(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .border(2.dp, Color.Black) // Add border to the bottom box
-            ) {
+            Box{
                 SurfersWindCards(weather)
                 WaveAnimationScreenSet()
             }
@@ -111,8 +118,8 @@ fun SurferWindContent(
 internal fun SurfersWindCards(weather: WeatherResponse?) {
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
+            //.padding(16.dp),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(

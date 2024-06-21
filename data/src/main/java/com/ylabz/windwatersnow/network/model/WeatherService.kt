@@ -14,3 +14,15 @@ interface WeatherService {
     ): WeatherResponse
 }
 
+interface MarineWeatherService {
+    @GET("onecall")
+    suspend fun getMarineWeather(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("appid") apiKey: String,
+        @Query("units") units: String,
+        @Query("exclude") exclude: String = "minutely,hourly,daily,alerts"
+    ): MarineWeatherResponse
+}
+
+

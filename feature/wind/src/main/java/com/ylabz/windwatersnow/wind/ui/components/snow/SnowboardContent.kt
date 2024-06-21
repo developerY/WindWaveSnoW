@@ -64,7 +64,18 @@ fun SnowboardScreen(
             navTo = navTo
         )
 
-        WeatherUiState.Error -> TODO()
+        is WeatherUiState.Error -> {
+            AlertDialog(
+                onDismissRequest = { /*TODO*/ },
+                title = { Text("Error") },
+                text = { Text(weatherUiState.message) },
+                confirmButton = {
+                    Button(onClick = { /*TODO*/ }) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -81,7 +92,6 @@ fun SnowboardContent(
     // use quicktype to get all the code  https://quicktype.io/
     Surface(
         modifier = Modifier
-            .padding(paddingValues)
             .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
@@ -96,8 +106,7 @@ fun SnowboardContent(
 internal fun SnowboardCards(snowboardResponse: WeatherResponse?) {
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(

@@ -9,9 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ylabz.windwatersnow.core.ui.MAIN
 import com.ylabz.windwatersnow.core.ui.Screen
-import com.ylabz.windwatersnow.wind.ui.components.SwipeableViews
-import com.ylabz.windwatersnow.wind.ui.components.system.AudioRecScreen
-import com.ylabz.windwatersnow.wind.ui.components.surf.SurferWindRoute
+import com.ylabz.windwatersnow.wind.ui.components.SwipeableViewsRoute
 import com.ylabz.windwatersnow.wind.ui.components.system.Locations
 import com.ylabz.windwatersnow.wind.ui.components.system.WeatherSettings
 
@@ -61,7 +59,7 @@ fun MainNavGraph(
                 paddingValues = padding,
                 navTo = {path -> navController.navigate(path)}
             )*/
-            SwipeableViews(
+            SwipeableViewsRoute(
                 paddingValues = padding,
                 navTo = {path -> navController.navigate(path)}
             )

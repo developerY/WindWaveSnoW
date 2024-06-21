@@ -42,8 +42,7 @@ dependencies {
 
     // Compose Navigation
     implementation(libs.androidx.navigation.compose)
-    //implementation(libs.androidx.hilt.navigation.compose)
-    //implementation(libs.androidx.hilt.navigation.compose.navigation)
+    implementation(libs.androidx.hilt.navigation.compose)
 
 
     // TESTING

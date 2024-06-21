@@ -3,6 +3,7 @@ package com.ylabz.windwatersnow.wind.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ylabz.windwatersnow.network.model.AudioSystem
 import com.ylabz.windwatersnow.network.model.WeatherResponse
 import com.ylabz.windwatersnow.network.repo.WeatherRepo
 
@@ -15,23 +16,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WindViewModel @Inject constructor(
-    val weatherRepo: WeatherRepo
+    val weatherRepo: WeatherRepo,
+    private val audioFun: AudioSystem, //TODO move to Repo
 ) : ViewModel() {
     private var getWindWeatherJob: Job? = null
 
-    // Backing property to avoid state updates from other classes
-    private val _uiState = MutableStateFlow(
-        WeatherUiState.Success(
-            weather = null,
-        )
-    )
 
+    private var _uiState = MutableStateFlow<WeatherUiState>(WeatherUiState.Loading)
     // The UI collects from this StateFlow to get its state updates
     val uiState: StateFlow<WeatherUiState> = _uiState
 
     private fun intiViewModel() {
         viewModelScope.launch {
-            val weather = weatherRepo.getCurrentWeather("london")
+            _uiState.value  = WeatherUiState.Success(weather = null)
+            val weather = weatherRepo.getCurrentWeather((_uiState.value as WeatherUiState.Success).location)
             Log.d("Weather", "WindViewModel    ---- Weather: ${weather.toString()} ")
             //weather :String = weatherRepo.getWeather("london")
             _uiState.value = WeatherUiState.Success(weather = weather)
@@ -44,13 +42,41 @@ class WindViewModel @Inject constructor(
 
     fun onEvent(event: WeatherEvent) {
         when (event) {
-            is WeatherEvent.GetWeather-> {
+            // This is for the description
+            is WeatherEvent.SetLocation -> {
+                Log.d("Weather", "This is the dis ${event.value}")
                 viewModelScope.launch {
-                        val weather: WeatherResponse? = weatherRepo.getCurrentWeather("London")
-                        _uiState.value = WeatherUiState.Success(weather = weather)
-                        Log.d("Weather", "WindViewModel    ---- Weather: ${weather.toString()} ")
+                    val response = weatherRepo.getCurrentWeather(event.value)
+                    if (response != null) {
+                        _uiState.value  = WeatherUiState.Success(
+                            location = event.value,
+                            weather = response)
+
+                    } else {
+                        _uiState.value = WeatherUiState.Error("Error: City not found")
+                    }
+                }
+            }
+
+            is WeatherEvent.StartCaptureSpeech2Txt -> {
+                viewModelScope.launch {
+                    // actual work happens in the use case.
+                    audioFun.startSpeechToText(event.updateText, event.finished)
+                    //_eventFlow.emit(AddPhotodoEvent.getTextFromSpeach)
+                    // Not sure what to do ...
+                }
+            }
+
+            WeatherEvent.DismissError -> {
+                viewModelScope.launch {
+                    _uiState.value = WeatherUiState.Success(weather = null)
+                    val updatedUiState = (_uiState.value as WeatherUiState.Success).copy(
+                        location = "none"
+                    )
+                    _uiState.emit(updatedUiState)
                 }
             }
         }
     }
 }
+

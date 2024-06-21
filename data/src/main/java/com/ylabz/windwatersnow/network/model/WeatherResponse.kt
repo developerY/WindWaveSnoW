@@ -1,4 +1,5 @@
 package com.ylabz.windwatersnow.network.model
+import com.google.gson.annotations.SerializedName
 
 data class WeatherResponse(
     val coord: Coord,
@@ -22,3 +23,29 @@ data class Main(val temp: Double, val feels_like: Double, val temp_min: Double, 
 data class Wind(val speed: Double, val deg: Int, val gust: Double)
 data class Clouds(val all: Int)
 data class Sys(val type: Int, val id: Int, val country: String, val sunrise: Long, val sunset: Long)
+
+
+data class MarineWeatherResponse(
+    val currentMarine: CurrentMarine
+)
+
+data class CurrentMarine(
+    val temp: Double,
+    val wind_speed: Double,
+    val wind_deg: Int,
+    val wind_gust: Double,
+    val weather: List<Weather>,
+    @SerializedName("waves")
+    val waves: List<Wave>
+)
+
+data class MarineWeather(
+    val description: String,
+    val icon: String
+)
+
+data class Wave(
+    val height: Double,
+    val direction: Int,
+    val period: Double
+)
