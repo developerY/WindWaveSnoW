@@ -12,9 +12,6 @@ import com.ylabz.windwatersnow.network.model.MarineWeatherResponse
 import com.ylabz.windwatersnow.network.model.MarineWeatherService
 
 class WeatherRepoImpl @Inject constructor(
-    // private val topicDao: TopicDao,
-    private val network: WeatherService,
-    private val marineWeatherService: MarineWeatherService
 
 ) : WeatherRepo {
 
@@ -22,14 +19,5 @@ class WeatherRepoImpl @Inject constructor(
     override suspend fun getCurrentWeather(location: String):  WeatherResponse? {
         return fetchWeatherData(location)
     }
-
-    suspend fun getMarineWeather(latitude: Double, longitude: Double): MarineWeatherResponse? {
-        return try {
-            marineWeatherService.getMarineWeather(latitude, longitude, "YOUR_API_KEY", "metric")
-        } catch (e: Exception) {
-            null
-        }
-    }
-
 
 }
