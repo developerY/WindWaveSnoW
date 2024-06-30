@@ -58,6 +58,55 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
             Spacer(modifier = Modifier.height(16.dp))
 
             when (title) {
+                "Surfer Wave" -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Column {
+                            WaveHeightCard(height = Double.MIN_VALUE)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(openWeatherResponse?.wind?.speed ?: 0.0)
+                        }
+                        WaveAnimationScreenSet()
+                    }
+                }
+                "Snowboard Mt." -> {
+                    Box {
+                        Column {
+                            TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                        }
+                        SnowfallAnimation()
+                    }
+                }
+                "Rain" -> {
+                    Box {
+                        Column {
+                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WaveHeightCard(height = Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                        }
+                        RainAnimationScreen()
+                    }
+                }
+                "Sunshine" -> {
+                    Box {
+                        Column {
+                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WaveHeightCard(height = Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                        }
+                        SunshineAnimationScreen()
+                    }
+                }
                 "Sailor Wind" -> {
                     Box(
                         modifier = Modifier
@@ -75,66 +124,27 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                         WindAnimation()
                     }
                 }
-
-                "Surfer Wave" ->  {
+                else -> {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.BottomCenter
                     ) {
-                        Column {
-                            WaveHeightCard(height = Double.MIN_VALUE)
-                            Spacer(modifier = Modifier.height(16.dp))
-                            WindSpeedCard(openWeatherResponse?.wind?.speed ?: 0.0)
-                        }
-                        WaveAnimationScreenSet()
-                    }
-
-                }
-
-                "Snowboard Mt." -> {
-                    Box {
                         Column {
                             TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
-                        }
-                        SnowfallAnimation()
-                    }
-                }
-
-                "Rain" -> {
-                    Box {
-                        Column {
-                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
                             Spacer(modifier = Modifier.height(16.dp))
                             WaveHeightCard(height = Double.NaN)
-                            Spacer(modifier = Modifier.height(16.dp))
-                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
-
                         }
-                        RainAnimationScreen()
-                    }
-                }
-
-                "Sunshine" -> {
-                    Box {
-                        Column {
-                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
-                            Spacer(modifier = Modifier.height(16.dp))
-                            WaveHeightCard(height = Double.NaN)
-                            Spacer(modifier = Modifier.height(16.dp))
-                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
-
-                        }
-                        SunshineAnimationScreen()
                     }
                 }
             }
         }
     }
 }
+
 
 
 @Composable
