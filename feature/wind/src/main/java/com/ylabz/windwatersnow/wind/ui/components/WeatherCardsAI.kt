@@ -33,6 +33,7 @@ import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SunshineAnim
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WaveAnimationScreenSet
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WindAnimation
 import com.ylabz.windwatersnow.wind.ui.components.cards.Wind.WindDirectionCardAI
+import com.ylabz.windwatersnow.wind.ui.components.cards.temp.TemperatureCardAI
 
 
 @Composable
@@ -111,7 +112,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                     ) {
                         Column {
                             WindDirectionCardAI(openWeatherResponse?.wind?.deg ?: 0)
-                            TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
+                            TemperatureCardAI(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
                             Spacer(modifier = Modifier.height(16.dp))
