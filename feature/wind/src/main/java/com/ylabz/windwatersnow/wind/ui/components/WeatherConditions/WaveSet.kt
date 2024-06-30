@@ -1,20 +1,13 @@
-package com.ylabz.windwatersnow.wind.ui.components.surf
+package com.ylabz.windwatersnow.wind.ui.components.WeatherConditions
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlin.math.sin
 
@@ -42,13 +35,12 @@ fun WaveAnimationScreenSet() {
             delay(2000) // Change wave height every 2 seconds
         }
     }
-
     WaveSet(modifier = Modifier.fillMaxSize(), waveOffset = waveOffset, waveHeight = waveHeight.value)
 }
 
 @Composable
 fun WaveSet(modifier: Modifier = Modifier, waveOffset: Float, waveHeight: Float) {
-    Canvas(modifier = modifier) {
+    Canvas(modifier = modifier.fillMaxSize()) {
         val waveLength = size.width / 1.5f
 
         translate(top = size.height / 2) {
@@ -63,12 +55,12 @@ fun WaveSet(modifier: Modifier = Modifier, waveOffset: Float, waveHeight: Float)
                 lineTo(0f, size.height / 2)
                 close()
             }
-            drawPath(path, Color.Blue.copy(alpha = 0.1f)) // Set alpha to 0.3 for translucency
+            drawPath(path, Color.Blue.copy(alpha = 0.3f)) // Set alpha to 0.3 for translucency
         }
     }
 }
 
-@Preview
+@Preview(backgroundColor = 0xFF3F51B5)
 @Composable
 private fun WaveAnimationScreenSetPreview() {
     WaveAnimationScreenSet()

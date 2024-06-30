@@ -1,4 +1,4 @@
-package com.ylabz.windwatersnow.wind.ui.components.wind
+package com.ylabz.windwatersnow.wind.ui.components.WeatherConditions
 
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity

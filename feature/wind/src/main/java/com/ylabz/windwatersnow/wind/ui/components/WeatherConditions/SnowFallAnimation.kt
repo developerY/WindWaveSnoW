@@ -1,4 +1,4 @@
-package com.ylabz.windwatersnow.wind.ui.components.snow
+package com.ylabz.windwatersnow.wind.ui.components.WeatherConditions
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -17,15 +17,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlin.random.Random
 
 class Snowflake(
     private val screenWidth: Float,
     private val screenHeight: Float,
-    private val radiusRange: ClosedFloatingPointRange<Float>,
-    private val speedRange: ClosedFloatingPointRange<Float>
 ) {
+    private val radiusRange: ClosedFloatingPointRange<Float> = 4f..12f
+    private val speedRange: ClosedFloatingPointRange<Float> = 4f..20f
     private val random = Random(System.nanoTime())
     val radius: Float = radiusRange.randomInRange()
     var speed: Float = speedRange.randomInRange()
@@ -56,7 +57,7 @@ fun SnowfallAnimation(
     val screenHeight = with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
     val snowflakes = remember {
         List(numFlakes) {
-            Snowflake(screenWidth, screenHeight, radiusRange, speedRange)
+            Snowflake(screenWidth, screenHeight)//, radiusRange, speedRange)
         }
     }
 
@@ -87,3 +88,8 @@ fun SnowfallAnimation(
     }
 }
 
+@Preview(showBackground = true, backgroundColor = 0xFF495AB9)
+@Composable
+private fun SnowflakePreview() {
+    Snowflake(1080f,1234f)
+}

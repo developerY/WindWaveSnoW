@@ -2,9 +2,6 @@ package com.ylabz.windwatersnow.wind.ui.components
 
 import android.Manifest
 import android.content.pm.PackageManager
-import com.ylabz.windwatersnow.wind.ui.components.snow.SnowboardRoute
-import com.ylabz.windwatersnow.wind.ui.components.surf.SurferWindRoute
-import com.ylabz.windwatersnow.wind.ui.components.wind.SailorWindRoute
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -45,13 +42,12 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ylabz.windwatersnow.core.ui.Loading
-import com.ylabz.windwatersnow.network.model.WeatherResponse
+import com.ylabz.windwatersnow.network.model.OpenWeatherResponse
 import com.ylabz.windwatersnow.wind.ui.WeatherEvent
+import com.ylabz.windwatersnow.wind.ui.WeatherRoute
 import com.ylabz.windwatersnow.wind.ui.WeatherUiState
 import com.ylabz.windwatersnow.wind.ui.WindViewModel
 import com.ylabz.windwatersnow.wind.ui.components.system.SpeechCaptureUI
-import com.ylabz.windwatersnow.wind.ui.components.wind.SailorWindContent
-import com.ylabz.windwatersnow.wind.ui.components.wind.SailorWindScreen
 
 
 @Composable
@@ -89,7 +85,7 @@ internal fun SwipeableViewsScreen(
             modifier,
             paddingValues = paddingValues,
             onEvent = onEvent,
-            weatherResponse = weatherUiState.weather,
+            openWeatherResponse = weatherUiState.weather,
             location = weatherUiState.location,
             navTo = navTo
         )
@@ -118,7 +114,7 @@ fun SwipeableViewsContent(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     onEvent: (WeatherEvent) -> Unit,
-    weatherResponse: WeatherResponse?,
+    openWeatherResponse: OpenWeatherResponse?,
     location: String,
     navTo: (String) -> Unit,
 ) {
@@ -164,15 +160,19 @@ fun SwipeableViewsContent(
         }
     Box(modifier = Modifier.fillMaxSize().padding(paddingValues)
     ) {
-        val pagerState = rememberPagerState(pageCount = { 3 })
+        val pagerState = rememberPagerState(pageCount = { 5 })
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { page ->
             when (page) {
-                0 -> SailorWindRoute(paddingValues, navTo)
-                1 -> SurferWindRoute(paddingValues, navTo)
-                2 -> SnowboardRoute(paddingValues, navTo)
+                // these will go to different screens
+                // Sailer Wind
+                0 -> WeatherRoute(paddingValues, navTo, "Sailor Wind")
+                1 -> WeatherRoute(paddingValues, navTo, "Surfer Wave")
+                2 -> WeatherRoute(paddingValues, navTo, "Snowboard Mt.")
+                3 -> WeatherRoute(paddingValues, navTo, "Rain")
+                4 -> WeatherRoute(paddingValues, navTo, "Sunshine")
             }
         }
         Row(

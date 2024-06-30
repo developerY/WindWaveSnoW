@@ -1,7 +1,5 @@
 package com.ylabz.windwatersnow.network.model
-import com.google.gson.annotations.SerializedName
-
-data class WeatherResponse(
+data class OpenWeatherResponse(
     val coord: Coord,
     val weather: List<Weather>,
     val base: String,
@@ -9,6 +7,8 @@ data class WeatherResponse(
     val visibility: Int,
     val wind: Wind,
     val clouds: Clouds,
+    val rain: Rain?,
+    val snow: Snow?,
     val dt: Long,
     val sys: Sys,
     val timezone: Int,
@@ -17,35 +17,11 @@ data class WeatherResponse(
     val cod: Int
 )
 
+data class Snow(val `1h`: Double?,val `3h`: Double?)
+data class Rain(val `1h`: Double?,val `3h`: Double?)
 data class Coord(val lon: Double, val lat: Double)
 data class Weather(val id: Int, val main: String, val description: String, val icon: String)
 data class Main(val temp: Double, val feels_like: Double, val temp_min: Double, val temp_max: Double, val pressure: Int, val humidity: Int)
 data class Wind(val speed: Double, val deg: Int, val gust: Double)
 data class Clouds(val all: Int)
 data class Sys(val type: Int, val id: Int, val country: String, val sunrise: Long, val sunset: Long)
-
-
-data class MarineWeatherResponse(
-    val currentMarine: CurrentMarine
-)
-
-data class CurrentMarine(
-    val temp: Double,
-    val wind_speed: Double,
-    val wind_deg: Int,
-    val wind_gust: Double,
-    val weather: List<Weather>,
-    @SerializedName("waves")
-    val waves: List<Wave>
-)
-
-data class MarineWeather(
-    val description: String,
-    val icon: String
-)
-
-data class Wave(
-    val height: Double,
-    val direction: Int,
-    val period: Double
-)

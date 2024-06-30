@@ -37,6 +37,7 @@ dependencies {
     //androidx-ui-tooling-preview
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.constraintlayout)
 
     // Not needed
     testImplementation(libs.junit)

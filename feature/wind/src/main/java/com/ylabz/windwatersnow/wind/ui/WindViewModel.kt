@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ylabz.windwatersnow.network.model.AudioSystem
-import com.ylabz.windwatersnow.network.model.WeatherResponse
 import com.ylabz.windwatersnow.network.repo.WeatherRepo
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +13,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+/**
+ * Marine Weather Data
+ * Example URL for Marine Weather Data:
+ * https://api.weather.gov/gridpoints/MLB/25,69/forecast
+ *
+ * Interface ['Retorfit'] is NOAAWeather<Service> file WeatherResponse
+ * Retrofit is in RetrofitClient could be place in above as companion object
+ *
+ * data classes are in the NOAAMarine<WeatherResponse.kt> file
+ *
+ *
+ */
 @HiltViewModel
 class WindViewModel @Inject constructor(
     val weatherRepo: WeatherRepo,
@@ -29,7 +41,7 @@ class WindViewModel @Inject constructor(
     private fun intiViewModel() {
         viewModelScope.launch {
             _uiState.value  = WeatherUiState.Success(weather = null)
-            val weather = weatherRepo.getCurrentWeather((_uiState.value as WeatherUiState.Success).location)
+            val weather = weatherRepo.openCurrentWeather((_uiState.value as WeatherUiState.Success).location)
             Log.d("Weather", "WindViewModel    ---- Weather: ${weather.toString()} ")
             //weather :String = weatherRepo.getWeather("london")
             _uiState.value = WeatherUiState.Success(weather = weather)
@@ -46,7 +58,7 @@ class WindViewModel @Inject constructor(
             is WeatherEvent.SetLocation -> {
                 Log.d("Weather", "This is the dis ${event.value}")
                 viewModelScope.launch {
-                    val response = weatherRepo.getCurrentWeather(event.value)
+                    val response = weatherRepo.openCurrentWeather(event.value)
                     if (response != null) {
                         _uiState.value  = WeatherUiState.Success(
                             location = event.value,

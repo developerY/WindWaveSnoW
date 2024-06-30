@@ -1,7 +1,6 @@
 package com.ylabz.windwatersnow.di
 
 import com.ylabz.windwatersnow.network.WeatherRepoImpl
-import com.ylabz.windwatersnow.network.model.WeatherService
 import com.ylabz.windwatersnow.network.repo.WeatherRepo
 import dagger.Module
 import dagger.Provides
