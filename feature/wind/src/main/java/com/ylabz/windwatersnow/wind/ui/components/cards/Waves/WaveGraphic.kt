@@ -1,5 +1,6 @@
 package com.ylabz.windwatersnow.wind.ui.components.cards.Waves
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -13,6 +14,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
 import androidx.compose.runtime.remember
@@ -21,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
+import kotlinx.coroutines.delay
 
 import kotlin.math.cos
 import kotlin.math.sin
@@ -29,9 +32,21 @@ import kotlin.math.sin
 @Composable
 fun WaveGraphic(height: Double) {
     val waveColor = Color.White
-    val waveAmplitude = 20f  // Amplitude of the wave
     val waveFrequency = 2f   // Frequency of the wave
     val waveSpeed = 0.05f    // Speed of the wave
+
+    // Animatable for wave amplitude
+    val waveAmplitude = remember { Animatable(initialValue = 50f) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            val newAmplitude = (30..100).random().toFloat() // Random wave amplitude between 30 and 100
+            waveAmplitude.animateTo(
+                targetValue = newAmplitude,
+                animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
+            )
+            delay(2000) // Change wave amplitude every 2 seconds
+        }
+    }
 
     val infiniteTransition = rememberInfiniteTransition()
     val phase by infiniteTransition.animateFloat(
@@ -48,17 +63,17 @@ fun WaveGraphic(height: Double) {
         .height(100.dp)) {
         val wavePath = Path()
         val width = size.width
-        val height = size.height
+        val heightCanvas = size.height
 
-        wavePath.moveTo(0f, height / 2)
+        wavePath.moveTo(0f, heightCanvas / 2)
 
         for (x in 0 until width.toInt()) {
-            val y = (height / 2) + waveAmplitude * sin((x / width) * waveFrequency * 2 * Math.PI.toFloat() - phase).toFloat()
+            val y = (heightCanvas / 2) + waveAmplitude.value * sin((x / width) * waveFrequency * 2 * Math.PI.toFloat() - phase).toFloat()
             wavePath.lineTo(x.toFloat(), y.toFloat())
         }
 
-        wavePath.lineTo(width, height)
-        wavePath.lineTo(0f, height)
+        wavePath.lineTo(width, heightCanvas)
+        wavePath.lineTo(0f, heightCanvas)
         wavePath.close()
 
         drawPath(

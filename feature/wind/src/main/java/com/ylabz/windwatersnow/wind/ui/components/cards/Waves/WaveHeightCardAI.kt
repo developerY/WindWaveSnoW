@@ -41,7 +41,7 @@ fun WaveHeightCardAI(height: Double) {
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(16.dp))
-            WaveGraphic(height = height)
+            WaveGraphic(height)
         }
     }
 }
