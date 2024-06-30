@@ -57,102 +57,85 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
             WeatherLocationCard(location = title)
             Spacer(modifier = Modifier.height(16.dp))
 
-            AnimatedVisibility(
-                visible = title == "Sailor Wind",//"Sunny Mountain",
-                enter = fadeIn(animationSpec = tween(9000)),
-                exit = fadeOut(animationSpec = tween(9000))
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Column {
-                        TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WaveHeightCard(height = Double.NaN)
+            when (title) {
+                "Sailor Wind" -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Column {
+                            TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WaveHeightCard(height = Double.NaN)
+                        }
+                        WindAnimation()
                     }
-                    WindAnimation()
-                }
-            }
-
-            AnimatedVisibility(
-                visible = title == "Surfer Wave",//"Rainy Mountain",
-                enter = fadeIn(animationSpec = tween(1000)),
-                exit = fadeOut(animationSpec = tween(1000))
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Column {
-                        WaveHeightCard(height = Double.MIN_VALUE)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WindSpeedCard(openWeatherResponse?.wind?.speed ?: 0.0)
-                    }
-                    WaveAnimationScreenSet()
                 }
 
-            }
-
-            AnimatedVisibility(
-                visible = title == "Snowboard Mt.",//"Cloudy Mountain",
-                enter = fadeIn(animationSpec = tween(1000)),
-                exit = fadeOut(animationSpec = tween(1000))
-            ) {
-                Box {
-                    Column {
-                        TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                "Surfer Wave" ->  {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Column {
+                            WaveHeightCard(height = Double.MIN_VALUE)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(openWeatherResponse?.wind?.speed ?: 0.0)
+                        }
+                        WaveAnimationScreenSet()
                     }
-                    SnowfallAnimation()
+
                 }
-            }
 
-            AnimatedVisibility(
-                visible = title == "Rain",//"Snowy Mountain",
-                enter = fadeIn(animationSpec = tween(1000)),
-                exit = fadeOut(animationSpec = tween(1000))
-            ) {
-                Box {
-                    Column {
-                        SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WaveHeightCard(height = Double.NaN)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
-
+                "Snowboard Mt." -> {
+                    Box {
+                        Column {
+                            TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                        }
+                        SnowfallAnimation()
                     }
-                    RainAnimationScreen()
                 }
-            }
 
-            AnimatedVisibility(
-                visible = title == "Sunshine",//"Snowy Mountain",
-                enter = fadeIn(animationSpec = tween(1000)),
-                exit = fadeOut(animationSpec = tween(1000))
-            ) {
-                Box {
-                    Column {
-                        SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WaveHeightCard(height = Double.NaN)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                "Rain" -> {
+                    Box {
+                        Column {
+                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WaveHeightCard(height = Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
 
+                        }
+                        RainAnimationScreen()
                     }
-                    SunshineAnimationScreen()
+                }
+
+                "Sunshine" -> {
+                    Box {
+                        Column {
+                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WaveHeightCard(height = Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+
+                        }
+                        SunshineAnimationScreen()
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun WeatherLocationCard(location: String) {
