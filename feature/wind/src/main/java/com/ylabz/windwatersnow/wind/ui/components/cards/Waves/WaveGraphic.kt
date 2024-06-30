@@ -33,15 +33,16 @@ import kotlin.math.sin
 fun WaveGraphic(height: Double) {
     val waveColor = Color.White
     val waveFrequency = 2f   // Frequency of the wave
-    val waveSpeed = 0.05f    // Speed of the wave
+    val waveSpeed = 0.05f
+    var waveHeight = if (!height.isNaN()) height.toFloat() else 10f  // Set wave height based on input
 
     // Animatable for wave amplitude
-    val waveAmplitude = remember { Animatable(initialValue = 50f) }
+    val waveAmplitude = remember { Animatable(initialValue = waveHeight) }
     LaunchedEffect(Unit) {
         while (true) {
-            val newAmplitude = (30..100).random().toFloat() // Random wave amplitude between 30 and 100
+            val newAmplitude = waveHeight * (1.0 + (0..5).random()) // Random wave amplitude around the input height
             waveAmplitude.animateTo(
-                targetValue = newAmplitude,
+                targetValue = newAmplitude.toFloat(),
                 animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
             )
             delay(2000) // Change wave amplitude every 2 seconds
