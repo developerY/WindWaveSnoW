@@ -63,6 +63,7 @@ tensorflowLiteSupportVersion = "0.1.0"
 tensorflowLiteMetadataVersion = "0.1.0"
 googleGenAI =  "0.3.0"
 constraintlayoutVersion = "2.1.4"
+uiAndroidVersion = "1.6.0"
 
 
 [libraries]
@@ -202,6 +203,7 @@ tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-m
 google-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version = "0.25.1"}
 google-accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version = "0.25.1" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayoutVersion" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroidVersion" }
 
 
 [plugins]

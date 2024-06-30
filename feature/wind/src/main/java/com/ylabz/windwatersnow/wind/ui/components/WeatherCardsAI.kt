@@ -32,6 +32,7 @@ import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SnowfallAnim
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SunshineAnimationScreen
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WaveAnimationScreenSet
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WindAnimation
+import com.ylabz.windwatersnow.wind.ui.components.cards.Waves.WaveHeightCardAI
 import com.ylabz.windwatersnow.wind.ui.components.cards.Wind.WindDirectionCardAI
 import com.ylabz.windwatersnow.wind.ui.components.cards.temp.TemperatureCardAI
 
@@ -118,7 +119,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             Spacer(modifier = Modifier.height(16.dp))
                             WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
                             Spacer(modifier = Modifier.height(16.dp))
-                            WaveHeightCard(height = Double.NaN)
+                            WaveHeightCardAI(height = Double.NaN)
                         }
                         WindAnimation()
                     }

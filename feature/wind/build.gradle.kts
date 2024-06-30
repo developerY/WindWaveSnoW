@@ -38,6 +38,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.ui.android)
 
     // Not needed
     testImplementation(libs.junit)
