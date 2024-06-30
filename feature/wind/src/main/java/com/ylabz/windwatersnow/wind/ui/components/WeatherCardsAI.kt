@@ -1,7 +1,4 @@
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -35,8 +32,7 @@ import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SnowfallAnim
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SunshineAnimationScreen
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WaveAnimationScreenSet
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WindAnimation
-
-
+import com.ylabz.windwatersnow.wind.ui.components.cards.Wind.WindDirectionCardAI
 
 
 @Composable
@@ -69,6 +65,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             WaveHeightCard(height = Double.MIN_VALUE)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(openWeatherResponse?.wind?.speed ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         WaveAnimationScreenSet()
                     }
@@ -113,6 +110,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             .fillMaxWidth()
                     ) {
                         Column {
+                            WindDirectionCardAI(openWeatherResponse?.wind?.deg ?: 0)
                             TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
