@@ -3,6 +3,7 @@ import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -177,17 +178,25 @@ fun WeatherLocationCard(location: String) {
 
 @Composable
 fun TemperatureCard(temp: Double) {
+    // State to toggle between Celsius and Fahrenheit
+    var isCelsius by remember { mutableStateOf(true) }
+    val temperature = if (isCelsius) temp else temp * 9 / 5 + 32
+    val unit = if (isCelsius) "°C" else "°F"
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .shadow(8.dp, RoundedCornerShape(8.dp)),
+            .shadow(8.dp, RoundedCornerShape(8.dp))
+            .clickable {
+                isCelsius = !isCelsius
+            },
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFC107))
     ) {
-        Row {
-
-            //SunshineAnimationScreen()
-
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -199,7 +208,7 @@ fun TemperatureCard(temp: Double) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "$temp °C",
+                    text = "$temperature $unit",
                     style = MaterialTheme.typography.displayMedium,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
