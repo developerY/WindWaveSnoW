@@ -31,7 +31,7 @@ import kotlin.math.sin
 
 @Composable
 fun WaveGraphic(height: Double) {
-    val waveColor = Color.White
+    val waveColor = Color(0xFFE7FDFF)
     val waveFrequency = 2f   // Frequency of the wave
     val waveSpeed = 0.05f
     var waveHeight = if (!height.isNaN()) height.toFloat() else 10f  // Set wave height based on input

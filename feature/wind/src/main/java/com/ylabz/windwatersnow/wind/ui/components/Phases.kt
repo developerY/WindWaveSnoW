@@ -105,9 +105,41 @@ internal fun SwipeableViewsScreen(
     }
 }
 
+@Composable
+fun WeatherInputField(
+    location: String,
+    hasPermission: Boolean,
+    onEvent: (WeatherEvent) -> Unit
+) {
+    var text by remember { mutableStateOf(location) }
 
-
-
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(12.dp)
+    ) {
+        OutlinedTextField(
+            value = text,
+            onValueChange = { newText ->
+                text = newText
+            },
+            label = { Text("Weather Description") },
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+        )
+        Button(
+            onClick = { onEvent(WeatherEvent.SetLocation(text)) },
+            modifier = Modifier.padding(end = 8.dp)
+        ) {
+            Text("Submit")
+        }
+        SpeechCaptureUI(
+            hasPermission = hasPermission,
+            updateText = { desTxt -> onEvent(WeatherEvent.SetLocation(desTxt)) },
+            onEvent = onEvent
+        )
+    }
+}
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SwipeableViewsContent(
@@ -135,29 +167,11 @@ fun SwipeableViewsContent(
                 )
             }
         }
+
         if (isVisible) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                // horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                OutlinedTextField(
-                    value = location, // photodoTxtFV,
-                    onValueChange = { descripText ->
-                        onEvent(WeatherEvent.SetLocation(descripText))
-                    },// { photodoTitle = it }, // TextFieldValue
-                    label = { Text("Photodo Description") },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(12.dp)
-                )
-                SpeechCaptureUI(
-                    hasPermission = hasPermission,
-                    updateText = { desTxt -> onEvent(WeatherEvent.SetLocation(desTxt)) },
-                    onEvent = onEvent
-                )
-            }
+            WeatherInputField(location, hasPermission, onEvent)
         }
+
     Box(modifier = Modifier.fillMaxSize().padding(paddingValues)
     ) {
         val pagerState = rememberPagerState(pageCount = { 5 })

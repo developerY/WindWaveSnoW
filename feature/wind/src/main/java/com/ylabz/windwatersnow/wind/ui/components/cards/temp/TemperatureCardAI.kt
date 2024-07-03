@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 
 @Composable
@@ -46,7 +48,7 @@ fun TemperatureCardAI(temp: Double) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "$temperature $unit",
+                text = "${temperature.roundToLong()} $unit",
                 style = MaterialTheme.typography.displayMedium,
                 color = Color.White,
                 fontWeight = FontWeight.Bold

@@ -65,7 +65,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                         contentAlignment = Alignment.BottomCenter
                     ) {
                         Column {
-                            WaveHeightCard(height = Double.MIN_VALUE)
+                            WaveHeightCardAI(height = 7.7)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(openWeatherResponse?.wind?.speed ?: 0.0)
                             Spacer(modifier = Modifier.height(16.dp))
@@ -76,9 +76,11 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                 "Snowboard Mt." -> {
                     Box {
                         Column {
-                            TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
+                            SnowVolumeCardAI(volume = openWeatherResponse?.snow?.`1h` ?: 0.0)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
                         }
                         SnowfallAnimation()
                     }
@@ -86,11 +88,11 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                 "Rain" -> {
                     Box {
                         Column {
-                            SnowVolumeCardAI(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
-                            Spacer(modifier = Modifier.height(16.dp))
-                            WaveHeightCard(height = Double.NaN)
+                            TemperatureCardAI(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
                         }
                         RainAnimationScreen()
                     }
@@ -98,9 +100,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                 "Sunshine" -> {
                     Box {
                         Column {
-                            SnowVolumeCard(volume = openWeatherResponse?.snow?.`1h` ?: Double.NaN)
-                            Spacer(modifier = Modifier.height(16.dp))
-                            WaveHeightCard(height = Double.NaN)
+                            TemperatureCardAI(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
                         }
@@ -113,14 +113,11 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             .fillMaxWidth()
                     ) {
                         Column {
-                            WindDirectionCardAI(openWeatherResponse?.wind?.deg ?: 0)
-                            TemperatureCardAI(temp = openWeatherResponse?.main?.temp ?: 0.1)
-                            Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
                             Spacer(modifier = Modifier.height(16.dp))
-                            WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
+                            WindDirectionCardAI(openWeatherResponse?.wind?.deg ?: 0)
                             Spacer(modifier = Modifier.height(16.dp))
-                            WaveHeightCardAI(height = Double.NaN)
+                            WaveHeightCardAI(height = 2.7)
                         }
                         WindAnimation()
                     }
