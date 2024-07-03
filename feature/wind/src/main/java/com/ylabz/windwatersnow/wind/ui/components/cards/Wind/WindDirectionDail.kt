@@ -43,13 +43,12 @@ fun WindDirectionDial(degree: Float) {
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(200.dp)
+        modifier = Modifier.size(150.dp)
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val radius = size.minDimension / 2
             val center = Offset(size.width / 2, size.height / 2)
             val wiggleDegree = degree + wiggle
-
 
             // Draw the dial circle
             drawCircle(
@@ -103,12 +102,5 @@ fun WindDirectionDial(degree: Float) {
                 )
             }
         }
-        // Draw the degree number over the dial
-        Text(
-            text = "${degree.toInt()}°",
-            style = MaterialTheme.typography.headlineSmall,
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.TopCenter).padding(top = 16.dp)
-        )
     }
 }

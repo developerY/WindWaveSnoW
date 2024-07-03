@@ -34,6 +34,7 @@ import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WaveAnimatio
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WindAnimation
 import com.ylabz.windwatersnow.wind.ui.components.cards.Waves.WaveHeightCardAI
 import com.ylabz.windwatersnow.wind.ui.components.cards.Wind.WindDirectionCardAI
+import com.ylabz.windwatersnow.wind.ui.components.cards.rain.RainVolumeCardAI
 import com.ylabz.windwatersnow.wind.ui.components.cards.snow.SnowVolumeCardAI
 import com.ylabz.windwatersnow.wind.ui.components.cards.temp.TemperatureCardAI
 
@@ -88,6 +89,8 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                 "Rain" -> {
                     Box {
                         Column {
+                            RainVolumeCardAI(volume = openWeatherResponse?.rain?.`1h` ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
                             TemperatureCardAI(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
