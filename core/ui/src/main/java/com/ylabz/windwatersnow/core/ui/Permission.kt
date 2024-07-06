@@ -2,9 +2,12 @@ package com.ylabz.windwatersnow.core.ui
 
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -38,8 +41,12 @@ fun FeatureThatRequireMicPermission(
                         "Please grant the permission"
             }
             Text(textToShow)
-            Button(onClick = { micPermissionState.launchPermissionRequest() }) {
-                Text("Request permission")
+            Button(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                onClick = { micPermissionState.launchPermissionRequest() }
+            ) {
+                Text("Request Mic Permission")
             }
         }
     }

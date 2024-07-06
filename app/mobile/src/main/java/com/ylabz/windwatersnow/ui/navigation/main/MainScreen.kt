@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.twotone.Home
 import androidx.compose.material.icons.twotone.List
+import androidx.compose.material.icons.twotone.Settings
 import androidx.compose.material.icons.twotone.Star
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -97,11 +98,11 @@ val items = listOf(
         selectedIcon = Icons.TwoTone.List,
         unselectedIcon = Icons.Outlined.List,
         hasNews = false,
-        badgeCount = 7
+        badgeCount = 0
     ),
     BottomNavigationItem(
         title = "Settings", // Category -> Cat
-        selectedIcon = Icons.TwoTone.Star,
+        selectedIcon = Icons.TwoTone.Settings,
         unselectedIcon = Icons.Outlined.Settings,
         hasNews = true,
     ),

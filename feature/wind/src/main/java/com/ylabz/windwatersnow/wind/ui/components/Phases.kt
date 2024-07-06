@@ -118,63 +118,35 @@ fun WeatherInputField(
     requestPermission: () -> Unit
 ) {
     var text by remember { mutableStateOf(location) }
-
-    if (hasPermission) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(12.dp)
-        ) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(12.dp)
+    ) {
+        if (hasPermission) {
             SpeechCaptureUI(
                 hasPermission = hasPermission,
                 updateText = { desTxt -> text = desTxt },
                 onEvent = onEvent
             )
-            OutlinedTextField(
-                value = text,
-                onValueChange = { newText ->
-                    text = newText
-                },
-                label = { Text("Weather Description") },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
-            )
-            Button(
-                onClick = { onEvent(WeatherEvent.SetLocation(text)) },
-                modifier = Modifier.padding(end = 8.dp)
-            ) {
-                Text("Submit")
-            }
         }
-    } else {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(12.dp)
+        OutlinedTextField(
+            value = text,
+            onValueChange = { newText ->
+                text = newText
+            },
+            label = { Text("Weather Description") },
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+        )
+        Button(
+            onClick = { onEvent(WeatherEvent.SetLocation(text)) },
+            modifier = Modifier.padding(end = 8.dp)
         ) {
-            Button(
-                onClick = requestPermission,
-                modifier = Modifier.padding(bottom = 8.dp)
-            ) {
-                Text("Request Permission")
-            }
-            OutlinedTextField(
-                value = text,
-                onValueChange = { newText ->
-                    text = newText
-                },
-                label = { Text("Weather Description") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-            Button(
-                onClick = { onEvent(WeatherEvent.SetLocation(text)) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Submit")
-            }
+            Text("Submit")
         }
     }
+
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPermissionsApi::class)
@@ -213,7 +185,7 @@ fun SwipeableViewsContent(
         }
 
         if (isVisible) {
-            WeatherInputField(location, hasPermission, onEvent,  requestPermission = { permissionState.launchPermissionRequest() } )
+            WeatherInputField(location, hasPermission, onEvent,  requestPermission = requestPermission )
         }
 
     Box(modifier = Modifier.fillMaxSize().padding(paddingValues)
