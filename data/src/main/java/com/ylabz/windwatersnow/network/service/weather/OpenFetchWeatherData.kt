@@ -1,7 +1,7 @@
 package com.ylabz.windwatersnow.network.service.weather
 
-import com.ylabz.windwatersnow.network.model.OpenWeatherResponse
 import com.ylabz.windwatersnow.data.BuildConfig.OPEN_WEATHER_API_KEY
+import com.ylabz.windwatersnow.network.model.OpenWeatherResponse
 import com.ylabz.windwatersnow.network.model.OpenWeatherService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

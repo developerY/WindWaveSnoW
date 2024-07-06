@@ -1,6 +1,5 @@
 package com.ylabz.windwatersnow.wind.ui.components.system
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -19,9 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.ylabz.windwatersnow.core.ui.FeatureThatRequireMicPermission
 import com.ylabz.windwatersnow.wind.ui.WeatherEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import com.ylabz.windwatersnow.core.ui.FeatureThatRequireMicPermission
 
 @OptIn(ExperimentalPermissionsApi::class)
 @ExperimentalCoroutinesApi

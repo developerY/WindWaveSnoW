@@ -2,10 +2,10 @@ package com.ylabz.windwatersnow.di
 
 import android.content.Context
 import androidx.room.Room
+import com.ylabz.windwatersnow.data.repository.windwatersnowRepoImpl
 import com.ylabz.windwatersnow.data.windwatersnowDB
 import com.ylabz.windwatersnow.data.windwatersnowDao
 import com.ylabz.windwatersnow.data.windwatersnowRepo
-import com.ylabz.windwatersnow.data.repository.windwatersnowRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

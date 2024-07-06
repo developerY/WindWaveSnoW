@@ -2,7 +2,6 @@ package com.ylabz.windwatersnow.wind.ui.components.system
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.background
@@ -35,13 +34,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.ylabz.windwatersnow.core.ui.FeatureThatRequireMicPermission
-import com.ylabz.windwatersnow.wind.ui.WeatherEvent
 import com.ylabz.windwatersnow.wind.ui.WindViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)

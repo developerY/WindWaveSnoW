@@ -1,8 +1,8 @@
 package com.ylabz.windwatersnow.network
 
 import com.ylabz.windwatersnow.network.model.NOAA.NOAAWeatherDataResponse
-import com.ylabz.windwatersnow.network.repo.WeatherRepo
 import com.ylabz.windwatersnow.network.model.OpenWeatherResponse
+import com.ylabz.windwatersnow.network.repo.WeatherRepo
 import com.ylabz.windwatersnow.network.service.weather.FetchWeatherData
 import com.ylabz.windwatersnow.network.service.weather.OpenFetchWeatherData
 import javax.inject.Inject
