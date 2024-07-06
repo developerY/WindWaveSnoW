@@ -10,11 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 
@@ -35,26 +32,63 @@ fun TemperatureCardAI(temp: Double) {
             },
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFC107))
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
         ) {
-            Text(
-                text = "Temperature",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+            // Sunshine animation positioned at the top left
+            Sunshine(
+                modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.TopStart)
+                    .padding(16.dp),
+                rotationAngle = rememberInfiniteTransition().animateFloat(
+                    initialValue = 0f,
+                    targetValue = 360f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(durationMillis = 12000, easing = LinearEasing),
+                        repeatMode = RepeatMode.Restart
+                    ), label = "rotAng"
+                ).value,
+                scaleFactor = rememberInfiniteTransition().animateFloat(
+                    initialValue = 1f,
+                    targetValue = 1.5f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(durationMillis = 2500, easing = LinearEasing),
+                        repeatMode = RepeatMode.Reverse
+                    ), label = "scaleFac"
+                ).value,
+                breakoutDistance = rememberInfiniteTransition().animateFloat(
+                    initialValue = 0f,
+                    targetValue = 1000f,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(durationMillis = 5000, easing = LinearEasing),
+                        repeatMode = RepeatMode.Restart
+                    ), label = "breakoutDis"
+                ).value,
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "${temperature.roundToLong()} $unit",
-                style = MaterialTheme.typography.displayMedium,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Thermometer(temperature = temperature.toFloat())
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Temperature",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "${temperature.roundToLong()} $unit",
+                    style = MaterialTheme.typography.displayMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Thermometer(temperature = temperature.toFloat())
+            }
         }
     }
 }

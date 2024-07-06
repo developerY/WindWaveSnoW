@@ -48,7 +48,7 @@ fun WindDirectionCardAI(deg: Int) {
                 Text(
                     text = "${deg}°",
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        fontSize = MaterialTheme.typography.headlineLarge.fontSize * 2,
+                        fontSize = MaterialTheme.typography.headlineMedium.fontSize * 2,
                         fontWeight = FontWeight.Bold
                     ),
                     color = Color.Black,

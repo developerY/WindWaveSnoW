@@ -35,7 +35,7 @@ fun WaveHeightCardAI(height: Double) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "$height m",
+                text = "Not Active",//"$height m",
                 style = MaterialTheme.typography.displayMedium,
                 color = Color.White,
                 fontWeight = FontWeight.Bold

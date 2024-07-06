@@ -19,10 +19,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.ylabz.windwatersnow.core.ui.Permission
 import com.ylabz.windwatersnow.wind.ui.WeatherEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-
+import com.ylabz.windwatersnow.core.ui.FeatureThatRequireMicPermission
 
 @OptIn(ExperimentalPermissionsApi::class)
 @ExperimentalCoroutinesApi
@@ -37,9 +36,9 @@ fun SpeechCaptureUI(
         SpeechCaptureUIContent(modifier = modifier, updateText = updateText, onEvent = onEvent)
     } else {
         val context = LocalContext.current
-        Permission(
-            permission = Manifest.permission.RECORD_AUDIO,
-            rationale = "You said you wanted speech reorganization, so I'm going to have to ask for permission.",
+        FeatureThatRequireMicPermission(
+            //permission = Manifest.permission.RECORD_AUDIO,
+            //rationale = "You said you wanted speech reorganization, so I'm going to have to ask for permission.",
             permissionNotAvailableContent = {
                 Column(modifier) {
                     Text("O noes! Mic!")

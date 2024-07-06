@@ -10,6 +10,8 @@ android {
 
     defaultConfig {
         applicationId = "com.ylabz.windwatersnow"
+        versionCode = 2
+        versionName = "0.0.2"
     }
     secrets {
         defaultPropertiesFileName = "secrets.defaults.properties"
@@ -30,7 +32,7 @@ dependencies {
 
     // implementation(libs.androidx.ui)
     // implementation(libs.androidx.ui.graphics)
-    // implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
 

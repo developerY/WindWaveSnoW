@@ -28,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.ylabz.windwatersnow.core.ui.Loading
 import com.ylabz.windwatersnow.network.model.OpenWeatherResponse
 import com.ylabz.windwatersnow.wind.ui.WeatherEvent
@@ -105,42 +109,75 @@ internal fun SwipeableViewsScreen(
     }
 }
 
+@ExperimentalPermissionsApi
 @Composable
 fun WeatherInputField(
     location: String,
     hasPermission: Boolean,
-    onEvent: (WeatherEvent) -> Unit
+    onEvent: (WeatherEvent) -> Unit,
+    requestPermission: () -> Unit
 ) {
     var text by remember { mutableStateOf(location) }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(12.dp)
-    ) {
-        OutlinedTextField(
-            value = text,
-            onValueChange = { newText ->
-                text = newText
-            },
-            label = { Text("Weather Description") },
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp)
-        )
-        Button(
-            onClick = { onEvent(WeatherEvent.SetLocation(text)) },
-            modifier = Modifier.padding(end = 8.dp)
+    if (hasPermission) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(12.dp)
         ) {
-            Text("Submit")
+            SpeechCaptureUI(
+                hasPermission = hasPermission,
+                updateText = { desTxt -> text = desTxt },
+                onEvent = onEvent
+            )
+            OutlinedTextField(
+                value = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                label = { Text("Weather Description") },
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
+            )
+            Button(
+                onClick = { onEvent(WeatherEvent.SetLocation(text)) },
+                modifier = Modifier.padding(end = 8.dp)
+            ) {
+                Text("Submit")
+            }
         }
-        SpeechCaptureUI(
-            hasPermission = hasPermission,
-            updateText = { desTxt -> onEvent(WeatherEvent.SetLocation(desTxt)) },
-            onEvent = onEvent
-        )
+    } else {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(12.dp)
+        ) {
+            Button(
+                onClick = requestPermission,
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text("Request Permission")
+            }
+            OutlinedTextField(
+                value = text,
+                onValueChange = { newText ->
+                    text = newText
+                },
+                label = { Text("Weather Description") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+            Button(
+                onClick = { onEvent(WeatherEvent.SetLocation(text)) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Submit")
+            }
+        }
     }
 }
-@OptIn(ExperimentalFoundationApi::class)
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun SwipeableViewsContent(
     modifier: Modifier = Modifier,
@@ -150,9 +187,16 @@ fun SwipeableViewsContent(
     location: String,
     navTo: (String) -> Unit,
 ) {
-    val context = LocalContext.current
-    val hasPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
     var isVisible by remember { mutableStateOf(true) }
+    val permissionState = rememberPermissionState(Manifest.permission.RECORD_AUDIO)
+
+    // Request permission lambda
+    val requestPermission: () -> Unit = {
+        permissionState.launchPermissionRequest()
+    }
+
+    // Observe changes in the permission state and trigger recomposition
+    val hasPermission by remember { derivedStateOf { permissionState.status.isGranted } }
 
     Column {
         Row(
@@ -169,7 +213,7 @@ fun SwipeableViewsContent(
         }
 
         if (isVisible) {
-            WeatherInputField(location, hasPermission, onEvent)
+            WeatherInputField(location, hasPermission, onEvent,  requestPermission = { permissionState.launchPermissionRequest() } )
         }
 
     Box(modifier = Modifier.fillMaxSize().padding(paddingValues)

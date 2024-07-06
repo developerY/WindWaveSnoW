@@ -1,4 +1,4 @@
-package com.ylabz.windwatersnow.wind.ui.components.WeatherConditions
+package com.ylabz.windwatersnow.wind.ui.components.cards.temp
 
 
 import androidx.compose.animation.core.LinearEasing
@@ -8,14 +8,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -25,13 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ylabz.windwatersnow.core.ui.Loading
-import com.ylabz.windwatersnow.network.model.OpenWeatherResponse
-import com.ylabz.windwatersnow.wind.ui.WeatherEvent
-import com.ylabz.windwatersnow.wind.ui.WeatherUiState
-import com.ylabz.windwatersnow.wind.ui.WindViewModel
 
 @Composable
 fun SunshineAnimationScreen() {
@@ -92,7 +78,6 @@ fun Sunshine(
     rotationAngle: Float,
     scaleFactor: Float,
     breakoutDistance: Float,
-    //breakoutDirection: Float
 ) {
     Canvas(modifier = modifier) {
         val sunRadius = size.minDimension / 8
@@ -109,33 +94,35 @@ fun Sunshine(
         for (i in 0 until 12) {
             rotate(degrees = rotationAngle + i * 30, pivot = sunCenter) {
                 val isBreakoutRay = i % 3 == 0 // Select every third ray to be a breakout ray
+                val rayWidth = 1.dp.toPx() // Make the rays thinner
                 if (isBreakoutRay) {
                     val rayEndY = sunCenter.y + breakoutDistance //* breakoutDirection
                     drawRoundRect(
                         color = Color.Yellow.copy(alpha = 0.8f),
-                        topLeft = Offset(sunCenter.x - 5.dp.toPx(), sunCenter.y - sunRadius * 1.5f),
-                        size = androidx.compose.ui.geometry.Size(10.dp.toPx(), sunRadius * 2),
-                        cornerRadius = CornerRadius(5.dp.toPx())
+                        topLeft = Offset(sunCenter.x - rayWidth / 2, sunCenter.y - sunRadius * 4f),
+                        size = androidx.compose.ui.geometry.Size(rayWidth, sunRadius * 2),
+                        cornerRadius = CornerRadius(rayWidth / 2)
                     )
                     drawRoundRect(
                         color = Color.Yellow.copy(alpha = 0.8f),
-                        topLeft = Offset(sunCenter.x - 5.dp.toPx(), rayEndY - sunRadius * 1.5f),
-                        size = androidx.compose.ui.geometry.Size(10.dp.toPx(), sunRadius * 2),
-                        cornerRadius = CornerRadius(5.dp.toPx())
+                        topLeft = Offset(sunCenter.x - rayWidth / 2, rayEndY - sunRadius * 4f),
+                        size = androidx.compose.ui.geometry.Size(rayWidth, sunRadius * 2) * 2f,
+                        cornerRadius = CornerRadius(rayWidth / 2)
                     )
                 } else {
-                    val rayLength = sunRadius * 2 * scaleFactor
+                    val rayLength = sunRadius * 2f * scaleFactor
                     drawRoundRect(
                         color = Color.Yellow.copy(alpha = 0.8f),
-                        topLeft = Offset(sunCenter.x - 5.dp.toPx(), sunCenter.y - sunRadius * 1.5f),
-                        size = androidx.compose.ui.geometry.Size(10.dp.toPx(), rayLength),
-                        cornerRadius = CornerRadius(5.dp.toPx())
+                        topLeft = Offset(sunCenter.x - rayWidth / 2, sunCenter.y - sunRadius * 4f),
+                        size = androidx.compose.ui.geometry.Size(rayWidth, rayLength) * 2f,
+                        cornerRadius = CornerRadius(rayWidth / 2)
                     )
                 }
             }
         }
     }
 }
+
 
 
 @Preview(backgroundColor = 0xFF05043B)

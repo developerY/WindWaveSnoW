@@ -29,7 +29,7 @@ import com.ylabz.windwatersnow.network.model.Weather
 import com.ylabz.windwatersnow.network.model.Wind
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.RainAnimationScreen
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SnowfallAnimation
-import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.SunshineAnimationScreen
+import com.ylabz.windwatersnow.wind.ui.components.cards.temp.SunshineAnimationScreen
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WaveAnimationScreenSet
 import com.ylabz.windwatersnow.wind.ui.components.WeatherConditions.WindAnimation
 import com.ylabz.windwatersnow.wind.ui.components.cards.Waves.WaveHeightCardAI
@@ -82,6 +82,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
                             Spacer(modifier = Modifier.height(16.dp))
                             TemperatureCard(temp = openWeatherResponse?.main?.temp ?: 0.1)
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         SnowfallAnimation()
                     }
@@ -96,6 +97,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         RainAnimationScreen()
                     }
@@ -106,6 +108,9 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             TemperatureCardAI(temp = openWeatherResponse?.main?.temp ?: 0.1)
                             Spacer(modifier = Modifier.height(16.dp))
                             WindSpeedCard(speed = openWeatherResponse?.wind?.speed ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            RainVolumeCardAI(volume = openWeatherResponse?.rain?.`1h` ?: 0.0)
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         SunshineAnimationScreen()
                     }
@@ -121,6 +126,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             WindDirectionCardAI(openWeatherResponse?.wind?.deg ?: 0)
                             Spacer(modifier = Modifier.height(16.dp))
                             WaveHeightCardAI(height = 2.7)
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                         WindAnimation()
                     }
@@ -138,6 +144,7 @@ fun WeatherCardsAI(openWeatherResponse: OpenWeatherResponse?, title: String) {
                             WindDirectionCard(deg = openWeatherResponse?.wind?.deg ?: 0)
                             Spacer(modifier = Modifier.height(16.dp))
                             WaveHeightCard(height = Double.NaN)
+                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                 }

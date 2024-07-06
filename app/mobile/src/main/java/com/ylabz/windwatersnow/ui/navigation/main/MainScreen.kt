@@ -71,9 +71,9 @@ import kotlin.math.roundToInt
 
 private fun navigateTo(tabTitle: String, navController: NavHostController) {
     when (tabTitle) {
-        "WindScreen"-> navController.navigate(Screen.WindScreen.route)
-        "WaterScreen" -> navController.navigate(Screen.WaterScreen.route)
-        "SnowScreen" -> navController.navigate(Screen.SnowScreen.route)
+        "Home"-> navController.navigate(Screen.WindScreen.route)
+        "Locations" -> navController.navigate(Screen.WaterScreen.route)
+        "Settings" -> navController.navigate(Screen.SnowScreen.route)
     }
 }
 
@@ -87,20 +87,20 @@ data class BottomNavigationItem(
 
 val items = listOf(
     BottomNavigationItem(
-        title = "WindScreen",
+        title = "Home",
         selectedIcon = Icons.TwoTone.Home,
         unselectedIcon = Icons.Outlined.Home,
         hasNews = false,
     ),
     BottomNavigationItem(
-        title = "WaterScreen",
+        title = "Locations",
         selectedIcon = Icons.TwoTone.List,
         unselectedIcon = Icons.Outlined.List,
         hasNews = false,
         badgeCount = 7
     ),
     BottomNavigationItem(
-        title = "SnowScreen", // Category -> Cat
+        title = "Settings", // Category -> Cat
         selectedIcon = Icons.TwoTone.Star,
         unselectedIcon = Icons.Outlined.Settings,
         hasNews = true,
